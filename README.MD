@@ -42,8 +42,6 @@ commit  c3cc91632d0a1950fb122605b190233f2aa0006e
 
 在仓库根目录运行 `npm run build` 时，npm 会读取根目录 `package.json` 的 `scripts.build` 字段，并执行其中定义的串联命令。该脚本依次进入 `packages` 下配置的多个子目录，调用各子包自己的 `build` 脚本。`&&` 表示前一个命令成功后才会继续执行下一个命令；每个子包的具体构建操作由其 `package.json` 中的脚本定义。
 
-本项目使用 npm workspaces，应从仓库根目录统一安装依赖和执行构建，无需为每个子包另建锁文件。
-
 ![S3.1：根 package.json 中的 Node.js 要求](S3.1.png)
 
 ![S3.2：根 package.json 中的 build 脚本及依赖安装终端](S3.2.png)
@@ -57,8 +55,6 @@ commit  c3cc91632d0a1950fb122605b190233f2aa0006e
 ```powershell
 npm install --ignore-scripts
 ```
-
-该命令根据根 `package.json` 和 `package-lock.json` 安装当前项目及工作区所需依赖，并在项目中准备 `node_modules` 等目录。这里没有使用 `-g`，所以这是项目本地依赖安装，不会把修改后的源码安装成全局 `pi` 命令。`--ignore-scripts` 跳过安装期间自动触发的生命周期脚本；之后手动运行 `npm run build` 仍会执行构建脚本。
 
 截图中的安装输出显示新增了 333 个包，并返回到 PowerShell 提示符。日志同时出现 `min-release-age-exclude` 配置提示和两个依赖弃用提示。这些提示不等同于安装失败；截图没有显示明确的 `$LASTEXITCODE`，因此报告不据此声称安装退出码为 0。截图也没有展示完整的 `npm audit` 汇总，故不推断漏洞数量。
 
@@ -89,8 +85,6 @@ $LASTEXITCODE
 ![S5：构建结果、产物存在、版本和退出码](S5.png)
 
 *图 S5：显示构建产物、`Test-Path` 检查、CLI 版本 `1.5.2` 和退出码 `0`。*
-
-首次构建成功且所需模型目录数据仍有效后，可按项目脚本使用 `npm run build:offline` 重新构建；它复用已有数据，不是首次初始化数据的替代命令。
 
 ## 七、启动本地源码并验证会话
 

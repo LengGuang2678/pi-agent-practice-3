@@ -2,7 +2,7 @@
 
 ## 一、实验目标
 
-本次实验在本地获取课程仓库源码，检查 Node.js、npm 和 Git 环境，从仓库根目录安装依赖并执行构建，最后分别验证编译产物和本地源码入口。实验重点是理解源码、依赖和构建产物之间的关系；不构建独立 EXE，也不下载大模型权重。
+本次实验在本地获取课程仓库源码，检查 Node.js、npm 和 Git 环境，从仓库根目录安装依赖并执行构建，最后分别验证编译产物和本地源码入口。
 
 ## 二、开发环境
 
@@ -36,7 +36,7 @@ commit  c3cc91632d0a1950fb122605b190233f2aa0006e
 
 ### Node.js 版本要求
 
-版本要求写在仓库根目录 `package.json` 的 `engines` 字段中：Node.js 需为 `>=22.19.0`。本次使用的 Node.js v24.18.0 满足要求；Node.js 24 是课程建议的版本系列，不代表项目最低版本要求为 24。
+版本要求写在仓库根目录 `package.json` 的 `engines` 字段中：Node.js 需为 `>=22.19.0`。本次使用的 Node.js v24.18.0 满足要求。
 
 ### 构建命令
 
@@ -56,7 +56,7 @@ commit  c3cc91632d0a1950fb122605b190233f2aa0006e
 npm install --ignore-scripts
 ```
 
-截图中的安装输出显示新增了 333 个包，并返回到 PowerShell 提示符。日志同时出现 `min-release-age-exclude` 配置提示和两个依赖弃用提示。这些提示不等同于安装失败；截图没有显示明确的 `$LASTEXITCODE`，因此报告不据此声称安装退出码为 0。截图也没有展示完整的 `npm audit` 汇总，故不推断漏洞数量。
+截图中的安装输出显示新增了 333 个包，并返回到 PowerShell 提示符。日志同时出现 `min-release-age-exclude` 配置提示和两个依赖弃用提示。
 
 ![S4：依赖安装完成输出及警告](S4.png)
 
@@ -70,7 +70,7 @@ npm install --ignore-scripts
 npm run build
 ```
 
-该命令读取根 `package.json` 中的 `scripts.build`，再按照脚本顺序调用工作区构建命令。首次构建可能联网获取模型目录等配置数据；这里的模型目录数据不是大模型权重，构建客户端也不等于启动模型推理服务。如果获取模型目录遇阻，可先运行 `npm run hydrate:model-data` 准备数据，再运行 `npm run build:offline`。
+该命令读取根 `package.json` 中的 `scripts.build`，再按照脚本顺序调用工作区构建命令。首次构建需要联网获取模型目录等配置数据。
 
 截图记录的构建输出包含 `packages\coding-agent\dist\bundle` 的构建结果。随后检查产物并运行其版本命令：
 
